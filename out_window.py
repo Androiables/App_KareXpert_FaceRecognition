@@ -61,20 +61,22 @@ class Ui_OutputDialog(QDialog):
         faces_cur_frame = face_recognition.face_locations(frame)
         encodes_cur_frame = face_recognition.face_encodings(frame, faces_cur_frame)
         name = "unknown"    #Unknown face recognition as unknown
-        status = "Face is not Detected"
+        status = utils.FACE_NO_DETECTED
 
         for encodeFace, faceLoc in zip(encodes_cur_frame, faces_cur_frame):
             match = face_recognition.compare_faces(encode_list_known, encodeFace, tolerance=0.50)
             face_dis = face_recognition.face_distance(encode_list_known, encodeFace)
             best_match_index = np.argmin(face_dis)
             if faceLoc is not None:
-                status = "Face Detected"
+                status = utils.FACE_DETECTED
 
             if match[best_match_index]:
                 name = people_names[best_match_index].upper()
         self.StatusLabel.setText(status)
         if utils.is_face_detected(status):
             self.NameLabel.setText(name)
+        else:
+            self.NameLabel.setText("")
 
         return frame
 
