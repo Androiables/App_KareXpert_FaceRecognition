@@ -14,6 +14,11 @@ class Ui_OutputDialog(QDialog):
         loadUi("./outputwindow.ui", self)   #Load output form UI
 
         self.image = None
+        self.encode_list = []
+        self.people_names = []
+        
+        self.TimeList1 = []
+        self.TimeList2 = []
 
     @pyqtSlot()
     def startVideo(self, camera_name):
@@ -31,10 +36,6 @@ class Ui_OutputDialog(QDialog):
             os.mkdir(path)
         # List of face codes and face names under the path
         images = []
-        self.people_names = []
-        self.encode_list = []
-        self.TimeList1 = []
-        self.TimeList2 = []
         people_list = os.listdir(path)
 
         for cl in people_list:
@@ -50,7 +51,7 @@ class Ui_OutputDialog(QDialog):
         self.timer.timeout.connect(self.update_frame)  # Timeout connection output
         self.timer.start(10)
 
-    def face_rec_(self, frame, encode_list_known, people_names):
+    def face_rec_(self, frame):
         """
         :param frame: camera capture
         :param encode_list_known: Entered face code
@@ -64,14 +65,14 @@ class Ui_OutputDialog(QDialog):
         status = utils.FACE_NO_DETECTED
 
         for encodeFace, faceLoc in zip(encodes_cur_frame, faces_cur_frame):
-            match = face_recognition.compare_faces(encode_list_known, encodeFace, tolerance=0.50)
-            face_dis = face_recognition.face_distance(encode_list_known, encodeFace)
+            match = face_recognition.compare_faces(self.encode_list, encodeFace, tolerance=0.50)
+            face_dis = face_recognition.face_distance(self.encode_list, encodeFace)
             best_match_index = np.argmin(face_dis)
             if faceLoc is not None:
                 status = utils.FACE_DETECTED
 
             if match[best_match_index]:
-                name = people_names[best_match_index].upper()
+                name = self.people_names[best_match_index].upper()
         self.StatusLabel.setText(status)
         if utils.is_face_detected(status):
             self.NameLabel.setText(name)
@@ -92,9 +93,9 @@ class Ui_OutputDialog(QDialog):
 
     def update_frame(self):
         _, self.image = self.capture.read()
-        self.displayImage(self.image, self.encode_list, self.people_names, 1)
+        self.displayImage(self.image)
 
-    def displayImage(self, image, encode_list, people_names, window=1):
+    def displayImage(self, image, window=1):
         """
         :param image: Image captured from camera
         :param encode_list: Recognized face recognition code
@@ -106,7 +107,7 @@ class Ui_OutputDialog(QDialog):
         try:
             if self.RecognizeButton.isChecked():
                 self.RecognizeButton.setEnabled(False)
-                image = self.face_rec_(image, encode_list, people_names)
+                image = self.face_rec_(image)
                 self.RecognizeButton.setChecked(False)
                 self.RecognizeButton.setEnabled(True)
         except Exception as e:
