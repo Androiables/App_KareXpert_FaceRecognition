@@ -37,6 +37,10 @@ You can install these dependencies using the following command:
 ```bash
 pip install PyQt5 opencv-python-headless face_recognition numpy
 ```
+or
+```bash
+pip install -r requirements.txt
+```
 
 ## Getting Started
 
