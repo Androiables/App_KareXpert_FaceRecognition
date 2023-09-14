@@ -99,6 +99,33 @@
 						</property>
 					</widget>
 				</item>
+				<item>
+					<widget class="QPushButton" name="RecordButton">
+						<property name="maximumSize">
+							<size>
+								<width>400</width>
+								<height>600</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+								<family>Roboto Condensed Light</family>
+								<pointsize>30</pointsize>
+								<weight>75</weight>
+								<bold>true</bold>
+							</font>
+						</property>
+						<property name="text">
+							<string>Record</string>
+						</property>
+						<property name="checkable">
+							<bool>true</bool>
+						</property>
+						<property name="autoRepeatInterval">
+							<number>100</number>
+						</property>
+					</widget>
+				</item>
 			</layout>
 		</widget>
 		<widget class="QGroupBox" name="groupBox">
