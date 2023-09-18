@@ -8,37 +8,18 @@ from keras.layers import Flatten
 from keras.layers import Dense
 from keras.callbacks import ModelCheckpoint
 import pickle
-import time
+from timeit import default_timer as timer
 import utils
 
 class FaceDetector:
-    def __init__(self, TrainingImagePath: str):
+    def __init__(self):
         self.encode_list = []
         self.ResultMap={}
-        self.trainingSet = None
         self.classifier = None
-        self.testDatagen = ImageDataGenerator()
-        batch_size = len(utils.getList(TrainingImagePath))
-        self.trainDatagen = ImageDataGenerator(
-                    shear_range=0.1,
-                    zoom_range=0.1,
-                    horizontal_flip=True)
-        self.trainingSet = self.trainDatagen.flow_from_directory(
-                                TrainingImagePath,
-                                target_size=(64, 64),
-                                batch_size=batch_size,
-                                class_mode='categorical')
-            
-        self.testSet = self.testDatagen.flow_from_directory(
-                                TrainingImagePath,
-                                target_size=(64, 64),
-                                batch_size=batch_size,
-                                class_mode='categorical')
 
-        self.neurons = None
+        self.neurons = 0
 
     def createClassifier(self):
- 
         self.classifier = Sequential()
         ''' STEP--1 Convolution
         # Adding the first layer of CNN
@@ -67,8 +48,26 @@ class FaceDetector:
         #self.classifier.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
         self.classifier.compile(loss='categorical_crossentropy', optimizer = 'adam', metrics=["accuracy"])
 
-    def trainModel(self):
-        TrainClasses=self.trainingSet.class_indices
+    def trainModel(self, TrainingImagePath: str):
+        testDatagen = ImageDataGenerator()
+        batch_size = len(utils.getList(TrainingImagePath))
+        trainDatagen = ImageDataGenerator(
+                    shear_range=0.1,
+                    zoom_range=0.1,
+                    horizontal_flip=True)
+        trainingSet = trainDatagen.flow_from_directory(
+                                TrainingImagePath,
+                                target_size=(64, 64),
+                                batch_size=batch_size,
+                                class_mode='categorical')
+            
+        testSet = testDatagen.flow_from_directory(
+                                TrainingImagePath,
+                                target_size=(64, 64),
+                                batch_size=batch_size,
+                                class_mode='categorical')
+        
+        TrainClasses=trainingSet.class_indices
 
         for faceValue,faceName in zip(TrainClasses.values(),TrainClasses.keys()):
             self.ResultMap[faceValue]=faceName
@@ -95,24 +94,30 @@ class FaceDetector:
                                            verbose=1)
 
         # Measuring the time taken by the model to train
-        StartTime = time.time()
+        StartTime = timer()
 
         # Starting the model training
-        history = self.classifier.fit(
-            self.trainingSet,
+        self.classifier.fit(
+            trainingSet,
             epochs=10,
-            validation_data=self.testSet,
+            validation_data=testSet,
             callbacks=[model_checkpoint]  # Add the ModelCheckpoint callback
         )
 
-        EndTime = time.time()
+        EndTime = timer()
         print("###### Total Time Taken: ", round((EndTime - StartTime) / 60), 'Minutes ######')
 
         # Save the final model weights
-        self.classifier.save_weights('final_model_weights.h5')
+        self.classifier.save('model.keras')
 
 
     def matchFace(self, imgPath: str, confidence_threshold: float = 0.5):
+        # with open("ResultsMap.pkl", 'rb') as fileReaderStream:
+        #     self.ResultMap = pickle.load(fileReaderStream)
+
+        # self.neurons = len(self.ResultMap)
+        # self.createClassifier()
+        # self.classifier.load_weights('model.h5')
         test_image = image.load_img(imgPath, target_size=(64, 64))
         test_image = image.img_to_array(test_image)
         
