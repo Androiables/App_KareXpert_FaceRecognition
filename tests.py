@@ -8,5 +8,6 @@ def getAccurancy():
 
     detector = FaceDetector(trainingImg)
     detector.trainModel()
-    detector.matchFace(imagesPath)
+    print(detector.matchFace(imagesPath))
+
 getAccurancy()

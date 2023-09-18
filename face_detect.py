@@ -6,6 +6,7 @@ from keras.layers import Convolution2D
 from keras.layers import MaxPool2D
 from keras.layers import Flatten
 from keras.layers import Dense
+from keras.callbacks import ModelCheckpoint
 import pickle
 import time
 import utils
@@ -17,7 +18,7 @@ class FaceDetector:
         self.trainingSet = None
         self.classifier = None
         self.testDatagen = ImageDataGenerator()
-        batch_size = len(utils.getList(TrainingImagePath)) * 2
+        batch_size = len(utils.getList(TrainingImagePath))
         self.trainDatagen = ImageDataGenerator(
                     shear_range=0.1,
                     zoom_range=0.1,
@@ -85,28 +86,48 @@ class FaceDetector:
 
         self.createClassifier()
 
+        # Define a ModelCheckpoint callback to save the best model during training
+        model_checkpoint = ModelCheckpoint('best_model_weights.h5', 
+                                           save_best_only=True, 
+                                           save_weights_only=True,
+                                           monitor='val_loss', 
+                                           mode='min', 
+                                           verbose=1)
+
         # Measuring the time taken by the model to train
-        StartTime=time.time()
-        
+        StartTime = time.time()
+
         # Starting the model training
-        self.classifier.fit_generator(
-                            self.trainingSet,
-                            steps_per_epoch=4,
-                            epochs=10,
-                            validation_data=self.testSet,
-                            validation_steps=30)
-        
-        EndTime=time.time()
-        print("###### Total Time Taken: ", round((EndTime-StartTime)/60), 'Minutes ######')
+        history = self.classifier.fit(
+            self.trainingSet,
+            epochs=10,
+            validation_data=self.testSet,
+            callbacks=[model_checkpoint]  # Add the ModelCheckpoint callback
+        )
+
+        EndTime = time.time()
+        print("###### Total Time Taken: ", round((EndTime - StartTime) / 60), 'Minutes ######')
+
+        # Save the final model weights
+        self.classifier.save_weights('final_model_weights.h5')
 
 
-    def matchFace(self, imgPath: str):
-        test_image=image.load_img(imgPath,target_size=(64, 64))
-        test_image=image.img_to_array(test_image)
+    def matchFace(self, imgPath: str, confidence_threshold: float = 0.5):
+        test_image = image.load_img(imgPath, target_size=(64, 64))
+        test_image = image.img_to_array(test_image)
         
-        test_image=np.expand_dims(test_image,axis=0)
+        test_image = np.expand_dims(test_image, axis=0)
         
-        result=self.classifier.predict(test_image,verbose=0)
+        result = self.classifier.predict(test_image, verbose=0)
+        predicted_class = np.argmax(result)
+        predicted_confidence = result[0][predicted_class]
         
-        print('####'*10)
-        print('Prediction is: ',self.ResultMap[np.argmax(result)])
+        print('####' * 10)
+        print('Predicted Class:', self.ResultMap[predicted_class])
+        print('Predicted Confidence:', predicted_confidence)
+        
+        # Check if the predicted confidence exceeds the threshold
+        if predicted_confidence >= confidence_threshold:
+            return True
+        else:
+            return False
