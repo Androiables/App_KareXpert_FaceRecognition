@@ -11,9 +11,10 @@ def trainModel():
 def detect(path: str):
     if utils.isDir(path):
         for img in utils.getList(path):
-            detector.matchFace(img)
+            print(img)
+            print(detector.matchFace(img))
     else:
-        detector.matchFace(path)
+        print(detector.matchFace(path))
 
 
 trainModel()

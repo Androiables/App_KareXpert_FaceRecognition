@@ -1,5 +1,2 @@
 fastapi
-tensorflow
-keras
-cv2
-scipy
+face_recognition
