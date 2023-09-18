@@ -13,6 +13,9 @@ def getList(path):
         return ret
     return None
 
+def isDir(path: str):
+    return isdir(path)
+
 def isFaceDetected(status):
     if status == FACE_NO_DETECTED:
         return False

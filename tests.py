@@ -1,13 +1,22 @@
 from face_detect import FaceDetector
 import utils
 
-def getAccurancy():
-    detector = FaceDetector()
+# FaceDetector
+detector = FaceDetector()
+
+def trainModel():
     trainingImg = input("Enter the training Sample: ")
     detector.trainModel(trainingImg)
 
-    imagesPath = input("Enter the Images Path: ")
+def detect(path: str):
+    if utils.isDir(path):
+        for img in utils.getList(path):
+            detector.matchFace(img)
+    else:
+        detector.matchFace(path)
 
-    print(detector.matchFace(imagesPath))
 
-getAccurancy()
+trainModel()
+path = input("Enter the Image Path: ")
+
+detect(path)
