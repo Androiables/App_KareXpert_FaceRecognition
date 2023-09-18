@@ -8,7 +8,6 @@
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Configuration](#configuration)
-- [Customization](#customization)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 
@@ -23,6 +22,36 @@ The Face Recognition Application is a Python-based desktop application developed
 - **Display Recognized Faces:** Displays recognized faces with their corresponding names in real-time.
 
 ## Prerequisites
+
+Before you begin, ensure you have the following prerequisites:
+
+- [Python 3.11.x](https://www.python.org/downloads/release/python-3110/) or later.
+
+- **Windows Only:**
+  - [Visual Studio](https://visualstudio.microsoft.com/) with the "Desktop development with C++" workload selected during installation. Follow these steps to install the C++ compiler for Visual Studio:
+
+    1. **Install Visual Studio**:
+       - If you haven't already installed Visual Studio, you can download it from the official Visual Studio website.
+
+    2. **Select Workloads**:
+       - During the installation process, select "Desktop development with C++."
+
+    3. **Customize Installation (Optional)**:
+       - If you've already installed Visual Studio but didn't select the C++ workload, you can modify your existing installation to include it. Open the Visual Studio Installer, click on "Modify," and then select the "Desktop development with C++" workload.
+
+    4. **Installation and Updates**:
+       - Follow the on-screen instructions to complete the installation. Visual Studio will download and install the necessary components, including the C++ compiler.
+
+    5. **Verify Installation**:
+       - After the installation is complete, verify that the C++ compiler is installed by opening Visual Studio and creating a new C++ project or opening an existing one. You should be able to build and run C++ code.
+
+- [CMake](https://cmake.org/download/): CMake is a cross-platform build tool that may be required for some dependencies. Follow these steps to install CMake on your system:
+
+    - **Windows**: Download and run the CMake Windows Installer from the official CMake website.
+
+    - **Linux (Ubuntu/Debian)**: Install CMake using APT with the command `sudo apt install cmake`.
+
+- **Note: The "Desktop development with C++" workload in Visual Studio is required to build the `dlib` library, which is used by the `face_recognition` module for face recognition on Windows. Ensure that you have this workload installed to compile and use the `face_recognition` module effectively on Windows.**
 
 Before running the application, ensure you have the following dependencies installed:
 
@@ -60,7 +89,6 @@ pip install -r requirements.txt
     ```bash
     python main.py
     ```
-
 
 2. When the application starts, you will see a graphical user interface (GUI) with the following options:
 
