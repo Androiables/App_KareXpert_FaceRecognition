@@ -16,8 +16,7 @@ def detect(path: str):
     else:
         print(detector.matchFace(path))
 
-
-trainModel()
+# trainModel()
 path = input("Enter the Image Path: ")
 
 detect(path)

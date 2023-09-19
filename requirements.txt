@@ -1,2 +1,3 @@
 fastapi
 face_recognition
+pickle
