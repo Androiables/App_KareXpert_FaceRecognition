@@ -1,3 +1,5 @@
 fastapi
 face_recognition
 pickle
+uvicorn[standard]
+python-multipart

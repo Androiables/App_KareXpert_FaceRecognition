@@ -7,10 +7,14 @@ import os
 
 class FaceDetector:
     def __init__(self):
-        self.encode_list = {'names': [], 'data': []}
+        self.encode_list: dict = {'names': [], 'data': []}
 
 
     def trainModel(self, TrainingImagePath: str):
+        # Load Saved Data the encode_list
+        with open("encode_list.pkl", 'rb') as fileReadStream:
+            self.encode_list = pk.load(fileReadStream)
+
         peopleList = utils.getList(TrainingImagePath)
 
         for img in peopleList:
@@ -45,3 +49,8 @@ class FaceDetector:
             if match[best_match_index]:
                 return self.encode_list['names'][best_match_index]
         return False
+    
+    def faceExists(self, imgPath: str):
+        img = cv2.imread(imgPath)
+        curr: list = face_recognition.face_locations(img)
+        return len(curr) > 0
