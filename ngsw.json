@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1695972090471,
+  "timestamp": 1695973472632,
   "index": "https://androiables.github.io/App_KareXpert_FaceRecognition/index.html",
   "assetGroups": [
     {
@@ -54,7 +54,7 @@
     "https://androiables.github.io/App_KareXpert_FaceRecognition/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "https://androiables.github.io/App_KareXpert_FaceRecognition/index.html": "3e125b754bf5cecbd847bb522d7b3a974cae8be3",
     "https://androiables.github.io/App_KareXpert_FaceRecognition/main.318ba0d13489e2b5.js": "f6c5c5e91c666eac58a988503040aef236bd87ca",
-    "https://androiables.github.io/App_KareXpert_FaceRecognition/manifest.webmanifest": "c12bcd35f8b039464e51ce3d32eabd5ffee6903d",
+    "https://androiables.github.io/App_KareXpert_FaceRecognition/manifest.webmanifest": "3c2e2b342df8cb2dcd2af5dc308f44a45b1f2ffc",
     "https://androiables.github.io/App_KareXpert_FaceRecognition/polyfills.e6bfcd5b3cab3500.js": "a431e7f03801a9d614c007d9387a9efb2fb2bfff",
     "https://androiables.github.io/App_KareXpert_FaceRecognition/runtime.06af987dce061af7.js": "0e6d641118fb4b61572a5d988059b20e54f5ee9e",
     "https://androiables.github.io/App_KareXpert_FaceRecognition/styles.ef46db3751d8e999.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
