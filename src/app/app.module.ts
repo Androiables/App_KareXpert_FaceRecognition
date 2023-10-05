@@ -1,4 +1,5 @@
 import { NgModule, isDevMode } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +14,7 @@ import { WebcamModule } from 'ngx-webcam';
   imports: [
     WebcamModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
