@@ -12,8 +12,11 @@ class FaceDetector:
 
     def trainModel(self, TrainingImagePath: str):
         # Load Saved Data the encode_list
-        with open("encode_list.pkl", 'rb') as fileReadStream:
-            self.encode_list = pk.load(fileReadStream)
+        try:
+            with open("encode_list.pkl", 'rb') as fileReadStream:
+                self.encode_list = pk.load(fileReadStream)
+        except:
+            print("Empty Files Creating a new")
 
         peopleList = utils.getList(TrainingImagePath)
 
