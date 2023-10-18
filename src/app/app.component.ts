@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
 
   public triggerSnapshot(): void {
     this.trigger.next();
+    this.personDetected = "";
   }
 
   public get triggerObservable(): Observable<void> {
