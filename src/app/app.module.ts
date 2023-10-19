@@ -3,13 +3,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { WebcamModule } from 'ngx-webcam';
+import { FitComponentComponent } from './fit-component/fit-component.component';
+import { FaceComponentComponent } from './face-component/face-component.component';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FitComponentComponent,
+    FaceComponentComponent
   ],
   imports: [
     WebcamModule,

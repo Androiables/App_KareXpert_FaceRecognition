@@ -1,83 +1,15 @@
-<style>
-  :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 8px 0;
-  }
-
-  .content {
-    display: flex;
-    margin: 82px auto 32px;
-    padding: 0 16px;
-    max-width: 960px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-/* Default button styling */
-.actionBtn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-/* Button hover effect */
-.actionBtn:hover {
-  background-color: #2980b9;
-}
-
-/* Button active (clicked) state */
-.actionBtn:active {
-  background-color: #1c6389;
-}
-
-form {
-  display: flex;
-  gap: 5rem;
-}
-
-</style>
-
-<div class="content" role="main">
-  <form (submit)="sendImage($event)">
-    <div>
-      <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
-      <br />
-      <button class="actionBtn" type="button" (click)="triggerSnapshot();">Capture</button>
-    </div>
-    <div>
-      <div class="snapshot" *ngIf="webcamImage">
-        <img [src]="webcamImage.imageAsDataUrl" />
-      </div>
-      <!-- Add an input field to store the imageAsDataUrl -->
-      <input type="hidden" name="imageData" [value]="webcamImage?.imageAsDataUrl" />
-  
-      <!-- Add a Send button to submit the form -->
-      <button *ngIf="webcamImage" class="actionBtn" type="submit">Send</button>
-    </div>
-  </form>
-  <br />
-  <h1 *ngIf="personDetected">{{ personDetected }}</h1>
-</div>
-
-
+<nav>
+  <a class="button"
+     routerLink="/faceauth"
+     routerLinkActive="activebutton"
+     ariaCurrentWhenActive="page">
+    Face Recogniser
+  </a> |
+  <a class="button"
+     routerLink="/fitnesstracker"
+     routerLinkActive="activebutton"
+     ariaCurrentWhenActive="page">
+    Fitness Tracker
+  </a>
+</nav>
 <router-outlet></router-outlet>

@@ -1,0 +1,21 @@
+<div class="content" role="main">
+    <form (submit)="sendImage($event)">
+      <div>
+        <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+        <br />
+        <button class="actionBtn" type="button" (click)="triggerSnapshot();">Capture</button>
+      </div>
+      <div>
+        <div class="snapshot" *ngIf="webcamImage">
+          <img [src]="webcamImage.imageAsDataUrl" />
+        </div>
+        <!-- Add an input field to store the imageAsDataUrl -->
+        <input type="hidden" name="imageData" [value]="webcamImage?.imageAsDataUrl" />
+    
+        <!-- Add a Send button to submit the form -->
+        <button *ngIf="webcamImage" class="actionBtn" type="submit">Send</button>
+      </div>
+    </form>
+    <br />
+    <h1 *ngIf="personDetected">{{ personDetected }}</h1>
+  </div>

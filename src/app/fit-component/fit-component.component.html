@@ -1,0 +1,21 @@
+<div class="fitness-stats">
+    <div class="section">
+      <h2>Steps</h2>
+      <div class="stats-item" *ngFor="let entry of stepsEntries">
+        <span class="label">Date: </span>
+        <span class="value">{{ entry.date }}</span>
+        <br/>
+        <span class="value">&nbsp; - {{entry.value}} Steps</span>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Calories</h2>
+      <div class="stats-item" *ngFor="let entry of caloriesEntries">
+        <span class="label">Date: </span>
+        <span class="value">{{ entry.date }}</span>
+        <br/>
+        <span class="value">&nbsp; - {{entry.value}} Burn</span>
+      </div>
+    </div>
+  </div>
+  
