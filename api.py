@@ -1,9 +1,12 @@
+from datetime import datetime, timedelta
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 from pathlib import Path
 from face_detect import FaceDetector
 from model import ImageData
+from fit import get_steps, get_calories, tz
+import pytz
 import base64
 
 app = FastAPI()
@@ -66,4 +69,26 @@ def addNewPerson(file: UploadFile, name: str):
 
     return JSONResponse(content={
         "message": "Face Added Successfully"
-    }, status_code=100)
+    }, status_code=200)
+
+@app.get("/getSteps")
+def getSteps():
+    # Define the start and end times dynamically using timedelta
+    end_time = datetime.now(tz)
+    start_time = end_time - timedelta(days=30)  # Query data for the last 30 days
+
+    # Convert start_time and end_time to Unix timestamps
+    start_time_unix = int((start_time - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()) * 1000
+    end_time_unix = int((end_time - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()) * 1000
+    return JSONResponse(content=get_steps(start_time_unix, end_time_unix), status_code=200)
+    
+@app.get("/getCalories")
+def getCalories():
+    # Define the start and end times dynamically using timedelta
+    end_time = datetime.now(tz)
+    start_time = end_time - timedelta(days=30)  # Query data for the last 30 days
+
+    # Convert start_time and end_time to Unix timestamps
+    start_time_unix = int((start_time - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()) * 1000
+    end_time_unix = int((end_time - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()) * 1000
+    return JSONResponse(content=get_calories(start_time_unix, end_time_unix), status_code=200)
